@@ -160,17 +160,11 @@ body {
   justify-content: center;
 }
 
-
-
-.cta {
-  padding: 12px 22px;
-  border: none;
-  cursor: pointer;
-  border-radius: 12px;
-  background: var(--accent);
-  color: white;
-  font-weight: 700;
-  transition: transform 0.3s ease;
+.button-group {
+  display: flex;
+  gap: 16px;       /* This creates the space between the two buttons */
+  margin-top: 24px; /* Space between the text above and the buttons */
+  width: 100%;
 }
 
 .cta {
@@ -178,7 +172,15 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: white;
+  font-weight: 700;
   text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
 }
 
 .cta-icon {
@@ -186,9 +188,9 @@ body {
 }
 
 
-.cta:hover {
+/* .cta:hover {
   transform: translateY(-3px);
-}
+} */
 
 .hero {
   display: flex;
@@ -319,14 +321,75 @@ body {
 }
 
 .project-card:hover {
-  transform: translateY(-8px);
+  /* transform: translateY(-8px); */
   box-shadow: 0 20px 40px var(--shadow);
+  color: var(--text);       /* keep text color */
+  text-decoration: none;    /* optional safety */
 }
 
 .project-card span {
   display: inline-block;
   margin-top: 10px;
   font-weight: 700;
+}
+
+/* Container for the tags */
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 1.2rem 0;
+  min-height: 40px; /* Prevents layout jump during animation */
+}
+
+/* The "Skill Button" styling */
+.tag-badge {
+  background: rgba(59, 130, 246, 0.05); /* Very light blue tint */
+  color: #3b82f6;
+  padding: 6px 14px;
+  border-radius: 6px; /* Modern slightly rounded corners */
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  cursor: default;
+  
+  /* Entrance Animation Logic */
+  opacity: 0;
+  transform: translateY(10px);
+  animation: entrance 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: var(--delay); /* Uses the TS variable we passed */
+  
+  /* Smooth Hover Transition */
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+/* Hover: The "Pop" effect */
+/* .tag-badge:hover {
+  background: #3b82f6;
+  color: white;
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+  border-color: transparent;
+} */
+
+/* Animation Keyframes */
+@keyframes entrance {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Ensure the project description doesn't overlap */
+.project-desc {
+  color: #4b5563;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
 }
 
 /* Footer */
@@ -441,6 +504,10 @@ body {
   height: 26px;
 }
 
+.disabled-btn {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 
 @keyframes sectionReveal {
@@ -449,7 +516,66 @@ body {
     transform: translateY(0);
   }
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0; /* Shorthand for top/left/width/height 100% */
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  backdrop-filter: blur(4px); /* Adds a modern frosted glass effect */
+}
 
+.error-window {
+  background: var(--bg);
+  width: 90%;
+  max-width: 400px;
+  border-radius: 24px; /* Matches the smooth rounded corners in your image */
+  overflow: hidden;
+  box-shadow: 0 10px 30px var(--shadow);
+}
+
+.window-header {
+  background: var(--accent);
+  padding: 12px 20px;
+  color: white;
+  display: flex;
+  justify-content: flex-start; /* Keeps "Error message" on the left */
+}
+
+.window-title {
+  font-size: 16px;
+}
+
+.window-content {
+  /* Reduced vertical padding (25px) makes the modal shorter */
+  padding: 25px 20px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers everything inside the content area */
+  gap: 20px;
+}
+
+.error-text-body p {
+  margin: 0;
+  color: var(--text);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* OK Button specific styling */
+.error-window .cta {
+  width: auto;
+  min-width: 100px; /* Keeps the button from being too small */
+  padding: 10px 20px; /* Slightly tighter padding for a compact look */
+}
+
+/* We removed .ok-btn because we use .cta in the HTML now */
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}
 /* delay for each section */
 #home { animation-delay: 0.1s; }
 #about { animation-delay: 0.2s; }

@@ -36,7 +36,10 @@ function App() {
   const [darkMode, setDarkMode] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+const [errorCard, setErrorCard] = useState({ show: false, message: "" });
 
+// Add this helper function right below it
+const triggerError = (msg: any) => setErrorCard({ show: true, message: msg });
   useEffect(() => {
     document.body.className = darkMode ? "dark" : "light";
   }, [darkMode]);
@@ -60,6 +63,8 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
+
+
   const sections = [
     { id: "home", label: "Home" },
     { id: "skills", label: "Skills" },
@@ -71,23 +76,50 @@ function App() {
 const projects = [
   {
     title: "Event Management Platform",
-    desc: "A collaborative full-stack application featuring a managed CI/CD pipeline. I engineered the social connectivity features, including user profile management and a secure messaging system for staff coordination.",
-    link: "https://github.com/yourusername/event-management-cicd",
+    desc: "Engineered a comprehensive social layer featuring a secure, real-time messaging system for social interaction and a granular profile management suite. Architected a bidirectional friendship engine with private account controls and search indexing, all deployed via a managed CI/CD pipeline.",
+    link: "https://github.com/soc-cicd/ay2425s2-project-class-2b04-group-techies",
+    // Focus on the full-stack nature and real-time capabilities
+    tags: ["Full-Stack", "JavaScript", "PostgreSQL", "JWT Auth", "CI/CD", "WebSockets"]
   },
   {
     title: "Cleaning Service Platform",
-    desc: "A Java-based enterprise solution featuring cloud-hosted REST API integration. Implemented a secure checkout flow and full CRUD operations to manage service bookings and automated customer data handling.",
+    desc: "Collaborated in a dual-developer team to architect a Java-based enterprise solution. Specifically engineered the administrative management suite and implemented a robust CRUD engine for user feedback, streamlining service booking oversight and automated data processing via REST APIs.",
     link: "https://github.com/yourusername/cleaning-service-java",
+    demo: "https://drive.google.com/file/d/1IHK62hwjD3nQSpMZvp1lDLauhGhpDLXR/view?usp=drive_link",
+    // Focus on enterprise architecture
+    tags: ["Java", "Spring Boot", "REST API", "SQL", "Admin Dashboard", "CRUD"]
   },
   {
     title: "Web Security Audit Project",
     desc: "A security-focused initiative identifying and mitigating OWASP Top 10 vulnerabilities. Successfully implemented protections against SQL Injection and Cross-Site Scripting (XSS) to harden web application defenses.",
-    link: "https://github.com/yourusername/web-security-owasp",
+    link: "",
+    demo: "",
+    // Focus on cybersecurity terminology
+    tags: ["Cybersecurity", "OWASP Top 10", "Penetration Testing", "SQLi Mitigation", "XSS Defense"]
   },
   {
-    title: "Study Buddy (UI/UX Case Study)",
-    desc: "A user-centric design project driven by real-world user interviews and iterative feedback. Developed a ready-to-use high-fidelity prototype focused on enhancing student collaboration and accessibility.",
-    link: "https://github.com/yourusername/study-buddy-ux",
+    title: "EduFriendZ Usability Study",
+    desc: "Collaborated within a cross-functional team of four to execute a comprehensive usability study for a student productivity app. Transformed raw observational data and user interviews into actionable design insights, resulting in a high-fidelity prototype that optimizes focus-mode and task prioritization.",
+    link: "https://www.figma.com/design/bqcVdLTnFAyNFmdl3MAHCd/DEUI-CA2-PROTOTYPE?node-id=0-1&p=f&t=hUTuoZrfhRuUZ3Z9-0",
+    demo: "https://www.figma.com/proto/bqcVdLTnFAyNFmdl3MAHCd/DEUI-CA2-PROTOTYPE?node-id=84-172&p=f&t=hUTuoZrfhRuUZ3Z9-0&scaling=scale-down&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=4%3A27",
+    // Focus on UX Research methodology
+    tags: ["UX Research", "Figma", "High-Fidelity Prototyping", "Usability Testing", "User Interviews"]
+  },
+  {
+    title: "Driver Payroll Module",
+    desc: "Developed a payroll module during my internship to automate driver earnings calculations and payment records. Built an automated printing script to streamline document output and enhance operational efficiency in internal workflows.",
+    link: "",
+    demo: "",
+    // Focus on full-stack internal tooling
+    tags: ["PHP", "MSSQL", "Linux", "Automation", "Financial Logic", "Internal Tools"]
+  },
+  { 
+    title: "Automated Printing Script",
+    desc: "Developed an automated printing script to streamline printing workflows, reducing manual effort and improving operational efficiency during internal processes.",
+    link: "",
+    demo: "",
+    // Note: Since this is part of the project above, I combined similar tags
+    tags: ["Workflow Automation", "PHP", "Scripting", "Efficiency Optimization"]
   },
 ];
 const skills = [
@@ -237,8 +269,8 @@ const skills = [
 <section id="experience" className="section experience">
   <h2>Experience</h2>
   <div className="exp-card">
-    <h3>Intern / Web Developer</h3>
-    <p>Company Name • 2024</p>
+    <h3>Software Developer Intern</h3>
+    <p>Noel Gifts International Ltd  (April 2025 - Feb 2026)</p>
     <ul>
       <li>Assisted in system development and enhancements, contributing to more efficient workflows.</li>
       <li>Supported data monitoring and system integration processes to ensure accurate reporting.</li>
@@ -254,19 +286,43 @@ const skills = [
         <section id="projects" className="section projects">
           <h2>Projects</h2>
           <div className="projects-grid">
-            {projects.map((p) => (
-              <a
-                key={p.title}
-                className="project-card"
-                href={p.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <h3>{p.title}</h3>
-                <p>{p.desc}</p>
-                <span>View on GitHub →</span>
-              </a>
-            ))}
+{projects.map((p) => (
+  <div key={p.title} className="project-card">
+    <h3>{p.title}</h3>
+    
+    <div className="tag-container">
+      {p.tags.map((tag, index) => (
+        <span 
+          key={index} 
+          className="tag-badge" 
+          style={{ "--delay": `${index * 0.1}s` } as React.CSSProperties}
+        >
+          {tag}
+        </span>
+      ))}
+    </div>
+
+    <p className="project-desc">{p.desc}</p>
+    
+<div className="button-group">
+  {/* Updated GitHub Button */}
+  <button 
+    onClick={() => p.link ? window.open(p.link, '_blank') : triggerError('No link available.')} 
+    className="cta"
+  >
+    View on GitHub
+  </button>
+
+  {/* Updated Demo Button */}
+  <button 
+    onClick={() => p.demo ? window.open(p.demo, '_blank') : triggerError('No demo available.')} 
+    className="cta outline"
+  >
+    View Demo
+  </button>
+</div>
+  </div>
+))}
           </div>
         </section>
 
@@ -276,7 +332,7 @@ const skills = [
   <div className="contact-icons">
 <a
   className="contact-icon"
-  href="mailto:yourname@example.com"
+  href="mailto:phway3313@gmail.com"
   target="_blank"
   rel="noopener noreferrer"
   aria-label="Email"
@@ -287,7 +343,7 @@ const skills = [
 
     <a
       className="contact-icon"
-      href="https://www.linkedin.com/in/yourname"
+      href="https://www.linkedin.com/in/phwayphway/"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="LinkedIn"
@@ -307,7 +363,7 @@ const skills = [
 
     <a
       className="contact-icon"
-      href="https://wa.me/6512345678"
+      href="https://wa.me/6589035606"
       target="_blank"
       rel="noopener noreferrer"
       aria-label="WhatsApp"
@@ -318,7 +374,27 @@ const skills = [
 </section>
 
       </main>
-
+{/* --- RETRO SYSTEM ERROR CARD --- */}
+      {errorCard.show && (
+        <div className="modal-overlay">
+          <div className="error-window">
+            <div className="window-header">
+              <span className="window-title">Message</span>
+            </div>
+      <div className="window-content">
+  <div className="error-text-body">
+    <p>{errorCard.message}</p>
+  </div>
+  <button 
+    className="cta" 
+    onClick={() => setErrorCard({ show: false, message: "" })}
+  >
+    OK
+  </button>
+</div>
+          </div>
+        </div>
+      )}
       <footer className="footer">
         <p>Copyright © {new Date().getFullYear()} Phway Phway. All rights reserved.</p>
       </footer>
