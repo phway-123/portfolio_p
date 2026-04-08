@@ -3,7 +3,7 @@ import { FiSun, FiMoon } from "react-icons/fi";
 import { FaDownload } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { SiLinkedin, SiWhatsapp } from "react-icons/si";
-import profilePic from "./assets/profile.jpeg";
+import profilePic from "./assets/profile.jpg";
 
 import "./App.css";
 
@@ -39,29 +39,34 @@ function App() {
 const [errorCard, setErrorCard] = useState({ show: false, message: "" });
 
 // Add this helper function right below it
-const triggerError = (msg: any) => setErrorCard({ show: true, message: msg });
+// const triggerError = (msg: any) => setErrorCard({ show: true, message: msg });
   useEffect(() => {
     document.body.className = darkMode ? "dark" : "light";
   }, [darkMode]);
 
-  useEffect(() => {
-    const sections = document.querySelectorAll("section");
+useEffect(() => {
+  const sections = document.querySelectorAll("section");
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        // threshold: 0.3 means only 30% needs to be visible
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    },
+    { 
+      threshold: 0.3, 
+      // rootMargin: -80px tells the observer to "ignore" the top 80px 
+      // where your navbar sits, making the trigger more accurate.
+      rootMargin: "-80px 0px -20% 0px" 
+    }
+  );
 
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
+  sections.forEach((section) => observer.observe(section));
+  return () => observer.disconnect();
+}, []);
 
 
 
@@ -306,20 +311,24 @@ const skills = [
     
 <div className="button-group">
   {/* Updated GitHub Button */}
+  {/*
   <button 
     onClick={() => p.link ? window.open(p.link, '_blank') : triggerError('No link available.')} 
     className="cta"
   >
     View on GitHub
   </button>
+  */}
 
   {/* Updated Demo Button */}
+   {/*
   <button 
     onClick={() => p.demo ? window.open(p.demo, '_blank') : triggerError('No demo available.')} 
     className="cta outline"
   >
     View Demo
   </button>
+   */}
 </div>
   </div>
 ))}
